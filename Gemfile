@@ -6,6 +6,7 @@ gem 'bson_ext'
 gem 'devise'
 gem 'haml'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem "moped", github: "mongoid/moped"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.7'

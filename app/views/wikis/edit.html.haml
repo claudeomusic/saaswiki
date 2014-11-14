@@ -1,0 +1,14 @@
+%h1 Edit Wiki
+
+= form_for @wiki do |f|
+
+  %div.form-group
+    = f.label :subject
+    %br
+    = f.text_field :subject, autofocus: true, class: 'form-control'
+  %div.form-group
+    = f.label :body
+    %br
+    = f.text_area :body, class: 'form-control', rows: '10'
+  %div.form-group
+    = f.submit "Save", class: 'btn btn-success'

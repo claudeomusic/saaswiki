@@ -1,0 +1,11 @@
+= content_tag :tr, id: "wiki-#{wiki._id}" do
+  %tr
+    %td 
+      = link_to wiki.subject, wiki
+    %td 
+      = link_to "Edit", edit_wiki_path(wiki._id)
+    %td
+      permissions page
+    %td
+      -if wiki.author == current_user._id
+        = link_to "Delete", wiki, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this topic?' }

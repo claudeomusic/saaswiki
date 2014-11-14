@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   get 'wiki/index'
   get 'wiki/edit'
   get 'wiki/update'
-  get 'wiki/destroy'
   get 'welcome/index'
   get 'welcome/about'
 

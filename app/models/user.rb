@@ -42,4 +42,13 @@ class User
     record = to_adapter.get(key[0]["$oid"])
     record if record && record.authenticatable_salt == salt
   end
+
+  def admin?
+    role == 'admin'
+  end
+ 
+  def moderator?
+    role == 'moderator'
+  end
+
 end

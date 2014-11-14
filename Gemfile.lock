@@ -9,6 +9,15 @@ GIT
       tzinfo (>= 0.3.37)
 
 GIT
+  remote: git://github.com/mongoid/moped.git
+  revision: 7e5ac3eca7ce508b90d9ee866537367f87f254ee
+  specs:
+    moped (2.0.1)
+      bson (~> 2.2)
+      connection_pool (~> 2.0)
+      optionable (~> 0.2.0)
+
+GIT
   remote: https://github.com/stripe/stripe-ruby
   revision: 7aee297980aba1863c7e3294feb3eb4f2ee44911
   specs:
@@ -85,10 +94,6 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
     minitest (5.4.2)
-    moped (2.0.1)
-      bson (~> 2.2)
-      connection_pool (~> 2.0)
-      optionable (~> 0.2.0)
     multi_json (1.10.1)
     netrc (0.8.0)
     optionable (0.2.0)
@@ -164,6 +169,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mongoid!
+  moped!
   rails (= 4.1.7)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
