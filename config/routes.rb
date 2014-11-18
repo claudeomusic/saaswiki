@@ -9,7 +9,12 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :users, only: [:update, :show, :index]
-  resources :wikis
+  resources :wikis do
+    resources :permissions, only: [:index]
+    post '/add_user' => 'wikis#add_user', as: :add_user
+    post '/remove_collaborator' => 'wikis#remove_collaborator', as: :remove_collaborator
+  end
+
   root to: "welcome#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

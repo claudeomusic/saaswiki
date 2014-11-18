@@ -19,14 +19,8 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
   end
 
-  def permissions
-    @wiki = Wiki.find(params[:id])
-    @collaborators = User.all(_id: @wiki.collaborators)
-    @author = User.find(_id: @wiki.author)
-  end
-
   def index
-    @wikis = Wiki.any_of({author: current_user._id}, {moderators: current_user._id})
+    @wikis = Wiki.any_of({author: current_user._id}, {collaborators: current_user._id})
   end
 
   def edit
@@ -56,6 +50,22 @@ class WikisController < ApplicationController
       flash[:error] = "There was an error deleting the wiki."
       render :show
     end
+  end
+
+  def add_user
+    @wiki = Wiki.find(params[:wiki])
+    user_id = User.find(params[:user])._id
+    if user_id != @wiki.author
+      @wiki.push(collaborators: user_id)
+    end
+    redirect_to :back
+  end
+
+  def remove_collaborator
+    @wiki = Wiki.find(params[:wiki])
+    user_id = User.find(params[:user])._id
+    @wiki.pop(collaborators: user_id)
+    redirect_to :back
   end
 
   private
