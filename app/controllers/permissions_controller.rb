@@ -1,8 +1,8 @@
 class PermissionsController < ApplicationController
   def index
     @wiki = Wiki.find(params[:wiki_id])
-    @author_id = @wiki.author
-    @author = User.find(@wiki.author)
+    @author_id = @wiki.author_id
+    @author = User.find(@wiki.author_id)
 
     #collaborators
     if @wiki.collaborators

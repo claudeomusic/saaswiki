@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'charges/create'
+
   get 'wiki/new'
   get 'wiki/create'
   get 'wiki/index'
@@ -14,6 +16,8 @@ Rails.application.routes.draw do
     post '/add_user' => 'wikis#add_user', as: :add_user
     post '/remove_collaborator' => 'wikis#remove_collaborator', as: :remove_collaborator
   end
+
+  resources :charges, only: [:new, :create]
 
   root to: "welcome#index"
   # The priority is based upon order of creation: first created -> highest priority.

@@ -5,7 +5,7 @@ class WikisController < ApplicationController
 
   def create
     @wiki = Wiki.new(wiki_params)
-    @wiki.author = current_user._id
+    @wiki.author_id = current_user._id
 
     if @wiki.save
       redirect_to @wiki, notice: "Wiki was saved successfully."
@@ -20,7 +20,7 @@ class WikisController < ApplicationController
   end
 
   def index
-    @wikis = Wiki.any_of({author: current_user._id}, {collaborators: current_user._id})
+    @wikis = Wiki.any_of({author_id: current_user._id}, {collaborators: current_user._id})
   end
 
   def edit
@@ -55,7 +55,7 @@ class WikisController < ApplicationController
   def add_user
     @wiki = Wiki.find(params[:wiki])
     user_id = User.find(params[:user])._id
-    if user_id != @wiki.author
+    if user_id != @wiki.author_id
       @wiki.push(collaborators: user_id)
     end
     redirect_to :back

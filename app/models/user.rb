@@ -4,8 +4,10 @@ class User
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-  has_many :wikis
+  
+  has_many :wikis, :as => :author
 
+  has_and_belongs_to_many :collaborated_wikis, class_name: "Wiki"
   ## Username
   field :username,          type: String, default: ""
 
