@@ -10,4 +10,14 @@
           = link_to "Sign Up", new_user_registration_path, :class => "btn btn-primary btn-lg"
   %div.col-md-3
   %div.col-md-6.text-center
-    = link_to "Premium", new_charge_path, :class => "btn btn-primary btn-lg"
+    -if user_signed_in?
+      -if policy(current_user).upgrade?
+        = form_tag charges_path do  
+          = javascript_include_tag "https://checkout.stripe.com/v2/checkout.js", 
+            :class => "stripe-button", 
+            :"data-key" => "#{Rails.configuration.stripe[:publishable_key]}", 
+            :"data-label" => "Upgrade to Premium Now!",
+            :"data-panel-label" => "Submit payment for",
+            :"data-name" => "Bloc Wiki",
+            :"data-address" => "true",
+            :"data-amount" => "1500"

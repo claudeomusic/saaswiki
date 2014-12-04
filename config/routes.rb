@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'public/index'
+
   get 'charges/create'
 
   get 'wiki/new'
@@ -13,8 +15,8 @@ Rails.application.routes.draw do
   resources :users, only: [:update, :show, :index]
   resources :wikis do
     resources :permissions, only: [:index]
-    post '/add_user' => 'wikis#add_user', as: :add_user
-    post '/remove_collaborator' => 'wikis#remove_collaborator', as: :remove_collaborator
+    post '/add_user' => 'permissions#add_user', as: :add_user
+    post '/remove_collaborator' => 'permissions#remove_collaborator', as: :remove_collaborator
   end
 
   resources :charges, only: [:new, :create]

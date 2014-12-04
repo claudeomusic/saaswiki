@@ -1,10 +1,18 @@
 class WikisController < ApplicationController
+
   def new
     @wiki = Wiki.new
+    authorize @wiki
   end
 
   def create
     @wiki = Wiki.new(wiki_params)
+    authorize @wiki
+
+    if(wiki_params[:privacy] == 1)
+      @wiki.privacy = "Private"
+    end
+
     @wiki.author_id = current_user._id
 
     if @wiki.save
@@ -17,18 +25,22 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
   end
 
   def index
     @wikis = Wiki.any_of({author_id: current_user._id}, {collaborators: current_user._id})
+    authorize @wikis
   end
 
   def edit
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
   end
 
   def update
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
 
 
     if @wiki.update_attributes(wiki_params)
@@ -41,6 +53,7 @@ class WikisController < ApplicationController
 
   def destroy
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
     title = @wiki.subject
 
     if @wiki.destroy
@@ -52,26 +65,10 @@ class WikisController < ApplicationController
     end
   end
 
-  def add_user
-    @wiki = Wiki.find(params[:wiki])
-    user_id = User.find(params[:user])._id
-    if user_id != @wiki.author_id
-      @wiki.push(collaborators: user_id)
-    end
-    redirect_to :back
-  end
-
-  def remove_collaborator
-    @wiki = Wiki.find(params[:wiki])
-    user_id = User.find(params[:user])._id
-    @wiki.pop(collaborators: user_id)
-    redirect_to :back
-  end
-
   private
 
   def wiki_params
-    params.require(:wiki).permit(:subject,:body)
+    params.require(:wiki).permit(:subject,:body,:privacy)
   end
 
 end

@@ -2,13 +2,15 @@
   %head
     %title 
       Saaswiki
-    =stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true 
-    =javascript_include_tag 'application', 'data-turbolinks-track' => true 
+    =stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    =javascript_include_tag 'application', 'data-turbolinks-track' => true
     =csrf_meta_tags
   %body
     %div.container
       %ul.nav.nav-tabs
         -if user_signed_in?
+          %li
+            =link_to "Wikis", public_index_path
           %li 
             =link_to "Your Wikis", wikis_path
           %li
@@ -22,4 +24,19 @@
               %span.glyphicon.glyphicon-log-out
           -else
             #{link_to "Sign In", new_user_session_path} or #{link_to "Sign Up", new_user_registration_path}
+      -if flash[:notice]
+        %div.alert.alert-success
+          %button(type="button" class="close" data-dismiss="alert")
+            &times
+          = flash[:notice]
+      -elsif flash[:error]
+        %div.alert.alert-danger
+          %button(type="button" class="close" data-dismiss="alert")
+            &times
+          = flash[:error]
+      -elsif flash[:alert]
+        %div.alert.alert-warning
+          %button(type="button" class="close" data-dismiss="alert")
+            &times;
+          = flash[:alert]
       =yield

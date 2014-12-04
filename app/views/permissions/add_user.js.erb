@@ -1,0 +1,2 @@
+ <% if @user.valid? %>
+   $('.js-collaborators').append("<%= escape_javascript(render partial: "permissions/permission", locals: {wiki: @wiki, collaborator: collaborator}) %>");

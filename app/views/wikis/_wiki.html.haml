@@ -5,7 +5,8 @@
     %td 
       = link_to "Edit", edit_wiki_path(wiki._id)
     %td
-      = link_to "Sharing", wiki_permissions_path(wiki._id)
+      -if policy(wiki).shared?
+        = link_to "Sharing", wiki_permissions_path(wiki._id)
     %td
-      -if wiki.author_id == current_user._id
+      -if policy(wiki).destroy?
         = link_to "Delete", wiki, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this topic?' }

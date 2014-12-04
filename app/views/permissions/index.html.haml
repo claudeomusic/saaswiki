@@ -7,26 +7,21 @@
         %tr
           %td Username
           %td Role
-          %td Add/Remove?
+          %td Remove?
       %tbody
         %tr
           %td 
             =@author.username
           %td Author
-          %td N/A
+          %td 
         -if @collaborators
           -@collaborators.each do |collaborator|
-            %tr
-            %td 
-              =collaborator.username
-            %td Collaborator
-            %td 
-              = link_to "Remove", wiki_remove_collaborator_path(:wiki => @wiki, :user => collaborator), method: :post
-        -@excluded_users.each do |user|
-          %tr
-          %td
-            =user.username
-          %td User
-          %td 
-            = link_to "Add", wiki_add_user_path(:wiki => @wiki, :user => user),  method: :post
-       
+            = render partial: "permissions/permission", locals: {wiki: @wiki, collaborator: collaborator}
+        %td
+          - if policy(@wiki).add_user?
+            = form_tag(wiki_add_user_path(:wiki => @wiki, :user => @collaborator), method: :post) do
+              = label_tag(:label, "Add User:")
+              = text_field_tag(:collaborator, @collaborator)
+              = submit_tag("Submit")
+        %td
+        %td 

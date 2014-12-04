@@ -1,6 +1,10 @@
 class PermissionsController < ApplicationController
+  respond_to :html, :js
   def index
     @wiki = Wiki.find(params[:wiki_id])
+
+    authorize @wiki
+
     @author_id = @wiki.author_id
     @author = User.find(@wiki.author_id)
 
@@ -11,16 +15,32 @@ class PermissionsController < ApplicationController
       @collaborators = nil
     end
 
-    #non-collaborators AKA users
-    @exclude_list = @wiki.collaborators
-    if !@exclude_list
-      @exclude_list = @author_id
-    else
-      @exclude_list << @author_id
+    @autocomplete_items = User.all
+  end
+
+  def add_user
+    @wiki = Wiki.find(params[:wiki])
+    authorize @wiki
+    if User.where(username: params[:collaborator]).exists?
+      user_id = User.find_by(username: params[:collaborator])._id
+      @user = User.find_by(username: params[:collaborator])
+      if user_id != @wiki.author_id
+        @wiki.push(collaborators: user_id)
+      end
     end
 
-    @excluded_users = User.not.in(_id: @exclude_list)
-
+    respond_with(@wiki) do |format|
+      format.html { redirect_to wiki_permissions_path }
+    end
   end
+
+  def remove_collaborator
+    @wiki = Wiki.find(params[:wiki])
+    authorize @wiki
+    user_id = User.find(params[:user])._id
+    @wiki.pop(collaborators: user_id)
+    redirect_to :back
+  end
+
 
 end

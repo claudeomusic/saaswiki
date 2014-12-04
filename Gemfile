@@ -8,6 +8,8 @@ gem 'haml'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem "moped", github: "mongoid/moped"
 gem 'figaro', '1.0'
+gem 'pundit'
+gem 'rails-bootstrap-toggle-buttons'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.7'

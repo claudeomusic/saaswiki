@@ -1,6 +1,5 @@
 %div.row
   %div.col-md-4
-  %div.col-md-4
     %h2 Edit #{resource_name.to_s.humanize}
 
     =form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
@@ -38,9 +37,21 @@
 
       %div.form-group
         = f.submit "Update", class: 'btn btn-success'
+    -if policy(current_user).upgrade?
+      = form_tag charges_path do  
+        %h3 Upgrade to a Premium member!
+        %span Amount: $15.00
+        %br
+        = javascript_include_tag "https://checkout.stripe.com/v2/checkout.js", 
+          :class => "stripe-button", 
+          :"data-key" => "#{Rails.configuration.stripe[:publishable_key]}", 
+          :"data-label" => "Pay Now",
+          :"data-panel-label" => "Submit payment for",
+          :"data-name" => "Bloc Wiki",
+          :"data-address" => "true",
+          :"data-amount" => "1500"
+      %h3 Cancel my account
 
-    %h3 Cancel my account
-
-    %p Unhappy? #{ button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
+    %p Unhappy? #{ button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'}
 
     = link_to "Back", :back 

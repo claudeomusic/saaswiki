@@ -7,7 +7,11 @@ class User
   
   has_many :wikis, :as => :author
 
-  has_and_belongs_to_many :collaborated_wikis, class_name: "Wiki"
+  #has_and_belongs_to_many :collaborated_wikis, class_name: "Wiki"
+
+  ## Roles
+  field :role,              type: String, default: "standard" # admin, premium
+
   ## Username
   field :username,          type: String, default: ""
 
@@ -49,8 +53,18 @@ class User
     role == 'admin'
   end
  
-  def moderator?
-    role == 'moderator'
+  def premium?
+    role == 'premium'
   end
+
+  def standard?
+    role == 'standard'
+  end
+
+  def upgrade
+    self.role = "premium"
+    self.save
+  end
+
 
 end

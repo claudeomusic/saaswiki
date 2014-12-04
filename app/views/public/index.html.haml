@@ -1,0 +1,6 @@
+%h2 All Wikis 
+%div.row
+  %div.col-md-8
+    - @wikis.each do |wiki|
+      = render partial: "public/wiki", locals: {wiki: wiki}
+  %div.col-md-4
