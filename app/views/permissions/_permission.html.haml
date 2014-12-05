@@ -1,7 +1,7 @@
-%tr.js-collaborators
+%tr{id: "#{collaborator.username}"}
   %td 
     =collaborator.username
   %td Collaborator
   %td 
     - if policy(@wiki).remove_collaborator?
-      = button_to "Remove", wiki_remove_collaborator_path(:wiki => @wiki, :user => collaborator), class: 'btn btn-danger'
+      = button_to "Remove", wiki_remove_collaborator_path(:wiki => @wiki, :user => collaborator), remote: true, class: 'btn btn-danger'

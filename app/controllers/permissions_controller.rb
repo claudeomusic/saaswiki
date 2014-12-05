@@ -21,25 +21,38 @@ class PermissionsController < ApplicationController
   def add_user
     @wiki = Wiki.find(params[:wiki])
     authorize @wiki
+    success = false
+
     if User.where(username: params[:collaborator]).exists?
       user_id = User.find_by(username: params[:collaborator])._id
       @user = User.find_by(username: params[:collaborator])
-      if user_id != @wiki.author_id
+
+      if user_id != @wiki.author_id && @wiki.collaborators.exclude?(user_id)
         @wiki.push(collaborators: user_id)
+        success = true
       end
     end
 
-    respond_with(@wiki) do |format|
-      format.html { redirect_to wiki_permissions_path }
+    if success
+      respond_with(@wiki) do |format|
+        format.html { redirect_to wiki_permissions_path }
+      end
+    else
+      redirect_to wiki_permissions_path
     end
   end
 
   def remove_collaborator
     @wiki = Wiki.find(params[:wiki])
+    @user = User.find(params[:user])
     authorize @wiki
-    user_id = User.find(params[:user])._id
-    @wiki.pop(collaborators: user_id)
-    redirect_to :back
+    user_id = @user._id
+    if @wiki.collaborators.include?(user_id)
+      @wiki.pop(collaborators: user_id)
+      respond_with(@wiki) do |format|
+        format.html { redirect_to wiki_permissions_path }
+      end
+    end
   end
 
 

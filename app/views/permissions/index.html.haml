@@ -8,7 +8,7 @@
           %td Username
           %td Role
           %td Remove?
-      %tbody
+      %tbody.collaborators
         %tr
           %td 
             =@author.username
@@ -17,11 +17,12 @@
         -if @collaborators
           -@collaborators.each do |collaborator|
             = render partial: "permissions/permission", locals: {wiki: @wiki, collaborator: collaborator}
-        %td
-          - if policy(@wiki).add_user?
-            = form_tag(wiki_add_user_path(:wiki => @wiki, :user => @collaborator), method: :post) do
-              = label_tag(:label, "Add User:")
-              = text_field_tag(:collaborator, @collaborator)
-              = submit_tag("Submit")
-        %td
-        %td 
+    %table.table
+      %tbody
+        %tr
+          %td
+            - if policy(@wiki).add_user?
+              = form_tag(wiki_add_user_path(:wiki => @wiki, :user => @collaborator), method: :post, remote: true) do
+                = label_tag(:label, "Add User:")
+                = text_field_tag(:collaborator, @collaborator)
+                = submit_tag("Submit", class: "btn btn-success")

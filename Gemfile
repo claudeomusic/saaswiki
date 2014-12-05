@@ -11,6 +11,7 @@ gem 'figaro', '1.0'
 gem 'pundit'
 gem 'rails-bootstrap-toggle-buttons'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.7'
 # Use SCSS for stylesheets

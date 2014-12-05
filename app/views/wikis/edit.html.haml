@@ -17,5 +17,6 @@
       = f.check_box :privacy, {}, "Private", "Public"
       :javascript
         $("[name='wiki[privacy]']").bootstrapSwitch();
+      
   %div.form-group
     = f.submit "Save", class: 'btn btn-success'
